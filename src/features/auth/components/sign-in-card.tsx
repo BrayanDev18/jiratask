@@ -9,7 +9,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -18,92 +17,35 @@ import { useForm } from 'react-hook-form'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
+import { loginFormSchema } from '../../../lib/formSchemas'
+import { useLogin } from '../api/useLogin'
 
-const formSchema = z.object({
-  firstName: z.string().min(1, 'Required'),
-  lastName: z.string().min(1, 'Required'),
-  email: z.string().email(),
-  password: z.string().min(1, 'Required'),
-  confirmPassword: z.string().min(1, 'Required')
-})
-
-export const SignUpCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export const SignInCard = () => {
+  const { mutate } = useLogin()
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
       email: '',
-      password: '',
-      confirmPassword: ''
+      password: ''
     }
   })
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values })
+  const handleSubmit = (values: z.infer<typeof loginFormSchema>) => {
+    mutate({ json: values })
   }
 
   return (
-    <div className='max-w-md space-y-10 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black'>
-      <div>
-        <h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
-          Sign Up into Jiratask
-        </h2>
+    <div className='max-w-md w-full mx-auto space-y-4 rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black'>
+      <h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
+        Welcome Back!
+      </h2>
 
-        <p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300 text-center'>
-          By singing up you agree to our{' '}
-          <span className='text-blue-500 font-bold'>Privacy Policy</span> and{' '}
-          <span className='text-blue-500 font-bold'>Terms of Service</span>
-        </p>
-      </div>
+      <p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
+        Login to Jiratask you can because we don&apos;t have a login flow yet
+      </p>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2'>
-            <FormField
-              name='firstName'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <LabelInputContainer className='mb-4'>
-                      <Label htmlFor='firstname'>First name</Label>
-                      <Input
-                        id='firstName'
-                        placeholder='Jhon'
-                        type='text'
-                        {...field}
-                      />
-                    </LabelInputContainer>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              name='lastName'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <LabelInputContainer className='mb-4'>
-                      <Label htmlFor='lastName'>Last name</Label>
-
-                      <Input
-                        id='lastName'
-                        placeholder='Doe'
-                        type='lastName'
-                        {...field}
-                      />
-                    </LabelInputContainer>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           <FormField
             name='email'
             control={form.control}
@@ -111,11 +53,9 @@ export const SignUpCard = () => {
               <FormItem>
                 <FormControl>
                   <LabelInputContainer className='mb-4'>
-                    <Label htmlFor='email'>Email</Label>
-
                     <Input
                       id='email'
-                      placeholder='jhondoe@gmail.com'
+                      placeholder='projectmayhem@fc.com'
                       type='email'
                       {...field}
                     />
@@ -133,8 +73,6 @@ export const SignUpCard = () => {
               <FormItem>
                 <FormControl>
                   <LabelInputContainer className='mb-4'>
-                    <Label htmlFor='password'>Password</Label>
-
                     <Input
                       id='password'
                       placeholder='••••••••'
@@ -152,7 +90,7 @@ export const SignUpCard = () => {
             className='bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
             type='submit'
           >
-            Sign up &rarr;
+            Sign in &rarr;
             <BottomGradient />
           </Button>
 
@@ -164,7 +102,7 @@ export const SignUpCard = () => {
 
           <div className='flex flex-col space-y-4'>
             <button
-              className='relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]'
+              className=' relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]'
               type='submit'
             >
               <FaGithub />
@@ -190,12 +128,12 @@ export const SignUpCard = () => {
 
       <div className='flex items-center justify-center'>
         <p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
-          Already you have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
-            href='/sign-in'
+            href='/sign-up'
             className='text-blue-500 font-bold'
           >
-            Sign in
+            Sign up
           </Link>
         </p>
       </div>

@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { Rubik } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/theme-provider'
-import { QueryProvider } from '@/components/query-provider'
+import { ThemeProvider } from '@/lib/theme-provider'
+import { QueryProvider } from '@/lib/query-provider'
 
 const rubik = Rubik({
   subsets: ['latin'],

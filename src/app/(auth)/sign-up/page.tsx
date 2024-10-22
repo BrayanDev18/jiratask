@@ -1,9 +1,9 @@
-import { SignUpCard } from '@/components/features/auth/components/sign-up-card'
+import { SignUpCard } from '@/features/auth/components/sign-up-card'
 import React from 'react'
 
 const SignUpPage = () => {
   return (
-    <div>
+    <div className='h-screen flex justify-center items-center'>
       <SignUpCard />
     </div>
   )
